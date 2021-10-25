@@ -55,7 +55,7 @@ func TestUpgrader(t *testing.T) {
 	}
 
 	t.Run("first two migrations", func(t *testing.T) {
-		src := migrations.DirectSource(migrations1)
+		src := migrations.SourceDirect(migrations1)
 		u := migrations.Upgrader{
 			Source:   &src,
 			Database: &db,
@@ -80,7 +80,7 @@ func TestUpgrader(t *testing.T) {
 	}
 
 	t.Run("another two migrations", func(t *testing.T) {
-		src := migrations.DirectSource(append(migrations1, migrations2...))
+		src := migrations.SourceDirect(append(migrations1, migrations2...))
 		u := migrations.Upgrader{
 			Source:   &src,
 			Database: &db,
@@ -100,7 +100,7 @@ func TestUpgrader(t *testing.T) {
 	})
 
 	t.Run("no migrations needed", func(t *testing.T) {
-		src := migrations.DirectSource(append(migrations1, migrations2...))
+		src := migrations.SourceDirect(append(migrations1, migrations2...))
 		u := migrations.Upgrader{
 			Source:   &src,
 			Database: &db,
@@ -125,7 +125,7 @@ func TestUpgrader(t *testing.T) {
 	}
 
 	t.Run("last one", func(t *testing.T) {
-		src := migrations.DirectSource(append(migrations1, append(migrations2, migrations3...)...))
+		src := migrations.SourceDirect(append(migrations1, append(migrations2, migrations3...)...))
 		u := migrations.Upgrader{
 			Source:   &src,
 			Database: &db,
@@ -155,7 +155,7 @@ func TestErrorsDuringMigrations(t *testing.T) {
 	}
 
 	t.Run("first successful", func(t *testing.T) {
-		src := migrations.DirectSource(migrations1)
+		src := migrations.SourceDirect(migrations1)
 		u := migrations.Upgrader{
 			Source:   &src,
 			Database: &db,
@@ -179,7 +179,7 @@ func TestErrorsDuringMigrations(t *testing.T) {
 	t.Run("second fails", func(t *testing.T) {
 		db.migrateOverride = true
 
-		src := migrations.DirectSource(append(migrations1, migrations2...))
+		src := migrations.SourceDirect(append(migrations1, migrations2...))
 		u := migrations.Upgrader{
 			Source:   &src,
 			Database: &db,
@@ -198,7 +198,7 @@ func TestErrorsDuringMigrations(t *testing.T) {
 	t.Run("restores failed migration", func(t *testing.T) {
 		db.migrateOverride = false
 
-		src := migrations.DirectSource(append(migrations1, migrations2...))
+		src := migrations.SourceDirect(append(migrations1, migrations2...))
 		u := migrations.Upgrader{
 			Source:   &src,
 			Database: &db,
@@ -236,7 +236,7 @@ func TestErrorsDuringMigrations(t *testing.T) {
 		db.migrateOverride = true
 		db.migrateFailsAfter = 3
 
-		src := migrations.DirectSource(append(migrations1, append(migrations2, migrations3...)...))
+		src := migrations.SourceDirect(append(migrations1, append(migrations2, migrations3...)...))
 		u := migrations.Upgrader{
 			Source:   &src,
 			Database: &db,
@@ -264,7 +264,7 @@ func TestErrorsDuringMigrations(t *testing.T) {
 	t.Run("restores 4 failed migrations and executes final one", func(t *testing.T) {
 		db.migrateOverride = false
 
-		src := migrations.DirectSource(append(migrations1, append(migrations2, append(migrations3, migrations4...)...)...))
+		src := migrations.SourceDirect(append(migrations1, append(migrations2, append(migrations3, migrations4...)...)...))
 		u := migrations.Upgrader{
 			Source:   &src,
 			Database: &db,

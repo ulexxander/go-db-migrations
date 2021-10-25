@@ -64,8 +64,8 @@ func (sr *SourceDir) filepaths() ([]string, error) {
 	return paths, err
 }
 
-type DirectSource []Migration
+type SourceDirect []Migration
 
-func (ds DirectSource) Migrations() ([]Migration, error) {
-	return ds, nil
+func (sd SourceDirect) Migrations() ([]Migration, error) {
+	return sd, nil
 }
