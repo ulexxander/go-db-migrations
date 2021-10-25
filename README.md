@@ -15,3 +15,4 @@ For now you can refer to test files.
 ## Supported migration sources
 
 - SourceDir (read from directory)
+- SourceDirect (read from Go slice, used mostly in tests, but can be useful anyway)
